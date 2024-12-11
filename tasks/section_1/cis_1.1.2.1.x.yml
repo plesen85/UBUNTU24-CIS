@@ -3,7 +3,7 @@
 - name: "1.1.2.1.1 | PATCH | Ensure /tmp is a separate partition"
   when:
     - required_mount not in mount_names
-    - ubtu22cis_rule_1_1_2_1_1
+    - ubtu24cis_rule_1_1_2_1_1
   tags:
     - level1-server
     - level1-workstation
@@ -33,7 +33,7 @@
     src: "{{ item.device }}"
     fstype: "{{ item.fstype }}"
     state: present
-    opts: "{{ item.options }}{% if ('nodev' not in item.options and ubtu22cis_rule_1_1_2_1_2) %},nodev{% endif %}{% if ('nosuid' not in item.options and ubtu22cis_rule_1_1_2_1_3) %},nosuid{% endif %}{% if ('noexec' not in item.options and ubtu22cis_rule_1_1_2_1_4) %},noexec{% endif %}"
+    opts: "{{ item.options }}{% if ('nodev' not in item.options and ubtu24cis_rule_1_1_2_1_2) %},nodev{% endif %}{% if ('nosuid' not in item.options and ubtu24cis_rule_1_1_2_1_3) %},nosuid{% endif %}{% if ('noexec' not in item.options and ubtu24cis_rule_1_1_2_1_4) %},noexec{% endif %}"
   notify: Remount tmp
   loop: "{{ ansible_facts.mounts }}"
   loop_control:
@@ -41,9 +41,9 @@
   when:
     - item.mount == "/tmp"
     - not ubtu22cis_tmp_svc
-    - ubtu22cis_rule_1_1_2_1_2 or
-      ubtu22cis_rule_1_1_2_1_3 or
-      ubtu22cis_rule_1_1_2_1_4
+    - ubtu24cis_rule_1_1_2_1_2 or
+      ubtu24cis_rule_1_1_2_1_3 or
+      ubtu24cis_rule_1_1_2_1_4
   tags:
     - level1-server
     - level1-workstation
@@ -64,10 +64,10 @@
     "1.1.2.1.4 | PATCH | Ensure nosuid option set on /tmp partition"
   when:
     - ubtu22cis_tmp_svc
-    - ubtu22cis_rule_1_1_2_1_1 or
-      ubtu22cis_rule_1_1_2_1_2 or
-      ubtu22cis_rule_1_1_2_1_3 or
-      ubtu22cis_rule_1_1_2_1_4
+    - ubtu24cis_rule_1_1_2_1_1 or
+      ubtu24cis_rule_1_1_2_1_2 or
+      ubtu24cis_rule_1_1_2_1_3 or
+      ubtu24cis_rule_1_1_2_1_4
   tags:
     - level1-server
     - level1-workstation
