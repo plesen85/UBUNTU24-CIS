@@ -2,7 +2,7 @@
 
 - name: "1.1.2.2.1 | PATCH | Ensure /dev/shm is a separate partition"
   when:
-    - ubtu22cis_rule_1_1_2_2_1
+    - ubtu24cis_rule_1_1_2_2_1
     - required_mount not in mount_names
   tags:
     - level1-server
@@ -37,9 +37,9 @@
     1.1.2.2.4 | PATCH | Ensure noexec option set on /dev/shm partition"
   when:
     - discovered_dev_shm_mount is defined
-    - ubtu22cis_rule_1_1_2_2_2 or
-      ubtu22cis_rule_1_1_2_2_3 or
-      ubtu22cis_rule_1_1_2_2_4
+    - ubtu24cis_rule_1_1_2_2_2 or
+      ubtu24cis_rule_1_1_2_2_3 or
+      ubtu24cis_rule_1_1_2_2_4
   tags:
     - level1-server
     - level1-workstation
@@ -58,4 +58,4 @@
     src: tmpfs
     fstype: tmpfs
     state: mounted
-    opts: defaults,{% if ubtu22cis_rule_1_1_2_2_2 %}nodev,{% endif %}{% if ubtu22cis_rule_1_1_2_2_3 %}nosuid,{% endif %}{% if ubtu22cis_rule_1_1_2_2_4 %}noexec{% endif %}
+    opts: defaults,{% if ubtu24cis_rule_1_1_2_2_2 %}nodev,{% endif %}{% if ubtu24cis_rule_1_1_2_2_3 %}nosuid,{% endif %}{% if ubtu24cis_rule_1_1_2_2_4 %}noexec{% endif %}
