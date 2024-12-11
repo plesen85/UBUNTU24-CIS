@@ -6,9 +6,9 @@
       state: stopped
       enabled: false
   when:
-      - ubtu22cis_rule_1_1_9
-      - ubtu22cis_autofs_service_status.stdout == "loaded"
-      - not ubtu22cis_allow_autofs
+      - ubtu24cis_rule_1_1_9
+      - ubtu24cis_autofs_service_status.stdout == "loaded"
+      - not ubtu24cis_allow_autofs
   tags:
       - level1-server
       - level2-workstation

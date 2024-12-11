@@ -24,7 +24,7 @@
         when: ansible_connection != 'docker'
   notify: Update_Initramfs
   when:
-      - ubtu22cis_rule_1_1_1_1
+      - ubtu24cis_rule_1_1_1_1
   tags:
       - level1-server
       - level1-workstation
@@ -57,7 +57,7 @@
         when: ansible_connection != 'docker'
   notify: Update_Initramfs
   when:
-      - ubtu22cis_rule_1_1_1_2
+      - ubtu24cis_rule_1_1_1_2
       - snap_pkg_mgr.stdout == "0"
       - squashfs_builtin.stdout == "0"
   tags:
@@ -92,7 +92,7 @@
         when: ansible_connection != 'docker'
   notify: Update_Initramfs
   when:
-      - ubtu22cis_rule_1_1_1_3
+      - ubtu24cis_rule_1_1_1_3
   tags:
       - level2-server
       - level2-workstation

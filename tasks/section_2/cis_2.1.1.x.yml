@@ -4,7 +4,7 @@
   block:
       - name: "2.1.1.1 | PATCH | Ensure a single time synchronization daemon is in use | Pkg installed"
         ansible.builtin.package:
-            name: "{{ ubtu22cis_time_sync_tool }}"
+            name: "{{ ubtu24cis_time_sync_tool }}"
             state: present
 
       - name: "2.1.1.1 | PATCH | Ensure a single time synchronization daemon is in use | other pkgs removed"
@@ -14,7 +14,7 @@
         loop:
             - chrony
             - ntp
-        when: item != ubtu22cis_time_sync_tool
+        when: item != ubtu24cis_time_sync_tool
 
       - name: "2.1.1.1 | PATCH | Ensure a single time synchronization daemon is in use | mask service"
         ansible.builtin.service:
@@ -24,11 +24,11 @@
             masked: true
             daemon_reload: true
         when:
-            - ubtu22cis_time_sync_tool != "systemd-timesyncd"
+            - ubtu24cis_time_sync_tool != "systemd-timesyncd"
             - "'systemd-timesyncd' in ansible_facts.packages"
 
   when:
-      - ubtu22cis_rule_2_1_1_1
+      - ubtu24cis_rule_2_1_1_1
   tags:
       - level1-server
       - level1-workstation

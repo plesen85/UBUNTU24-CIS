@@ -33,47 +33,47 @@
             fail_msg: "You have {{ sudo_password_rule }} enabled but the user = {{ ansible_env.SUDO_USER }} has no password set - It can break access"
             success_msg: "You have a password set for sudo user {{ ansible_env.SUDO_USER }}"
         vars:
-            sudo_password_rule: ubtu22cis_rule_5_3_4  # pragma: allowlist secret
+            sudo_password_rule: ubtu24cis_rule_5_3_4  # pragma: allowlist secret
   when:
-      - ubtu22cis_rule_5_3_4
+      - ubtu24cis_rule_5_3_4
       - ansible_env.SUDO_USER is defined
   tags:
       - always
 
-- name: Check ubtu22cis_bootloader_password_hash variable has been changed
+- name: Check ubtu24cis_bootloader_password_hash variable has been changed
   ansible.builtin.assert:
-      that: ubtu22cis_bootloader_password_hash.find('grub.pbkdf2.sha512') != -1 and ubtu22cis_bootloader_password_hash != 'grub.pbkdf2.sha512.changethispassword'  # pragma: allowlist secret
-      msg: "This role will not be able to run single user password commands as ubtu22cis_bootloader_password_hash variable has not been set correctly"
+      that: ubtu24cis_bootloader_password_hash.find('grub.pbkdf2.sha512') != -1 and ubtu24cis_bootloader_password_hash != 'grub.pbkdf2.sha512.changethispassword'  # pragma: allowlist secret
+      msg: "This role will not be able to run single user password commands as ubtu24cis_bootloader_password_hash variable has not been set correctly"
   when:
-      - ubtu22cis_set_boot_pass
-      - ubtu22cis_rule_1_4_1
+      - ubtu24cis_set_boot_pass
+      - ubtu24cis_rule_1_4_1
   tags:
       - always
 
-- name: Check ubtu22cis_grub_user password variable has been changed
+- name: Check ubtu24cis_grub_user password variable has been changed
   block:
-      - name: Check ubtu22cis_grub_user password variable has been changed | check password is set
-        ansible.builtin.shell: "grep ^{{ ubtu22cis_grub_user }} /etc/shadow | awk -F : '{print $2}'"
+      - name: Check ubtu24cis_grub_user password variable has been changed | check password is set
+        ansible.builtin.shell: "grep ^{{ ubtu24cis_grub_user }} /etc/shadow | awk -F : '{print $2}'"
         changed_when: false
-        register: ubtu22cis_password_set_grub_user
+        register: ubtu24cis_password_set_grub_user
 
-      - name: Check ubtu22cis_grub_user password variable has been changed | check password is set
+      - name: Check ubtu24cis_grub_user password variable has been changed | check password is set
         ansible.builtin.assert:
-            that: ubtu22cis_password_set_grub_user.stdout.find('$y$') != -1 or ubtu22cis_grub_user_passwd.find('$y$') != -1 and ubtu22cis_grub_user_passwd != '$y$j9T$MBA5l/tQyWifM869nQjsi.$cTy0ConcNjIYOn6Cppo5NAky20osrkRxz4fEWA8xac6'
-            msg: "This role will not set the {{ ubtu22cis_grub_user }} user password is not set or ubtu22cis_grub_user_passwd variable has not been set correctly"
+            that: ubtu24cis_password_set_grub_user.stdout.find('$y$') != -1 or ubtu24cis_grub_user_passwd.find('$y$') != -1 and ubtu24cis_grub_user_passwd != '$y$j9T$MBA5l/tQyWifM869nQjsi.$cTy0ConcNjIYOn6Cppo5NAky20osrkRxz4fEWA8xac6'
+            msg: "This role will not set the {{ ubtu24cis_grub_user }} user password is not set or ubtu24cis_grub_user_passwd variable has not been set correctly"
         when:
-            - "'$y$' in ubtu22cis_password_set_grub_user.stdout"
-            - ubtu22cis_set_grub_user_pass
-            - ubtu22cis_rule_1_4_3
+            - "'$y$' in ubtu24cis_password_set_grub_user.stdout"
+            - ubtu24cis_set_grub_user_pass
+            - ubtu24cis_rule_1_4_3
 
-      - name: Check ubtu22cis_grub_user password variable has been changed | if password blank or incorrect type and not being set
+      - name: Check ubtu24cis_grub_user password variable has been changed | if password blank or incorrect type and not being set
         ansible.builtin.assert:
-            that: ( ubtu22cis_password_set_grub_user.stdout | length > 10 ) and '$y$' in ubtu22cis_password_set_grub_user.stdout
-            fail_msg: "Grub User {{ ubtu22cis_grub_user }} has no password set or incorrect encryption"
-            success_msg: "Grub User {{ ubtu22cis_grub_user }} has a valid password set to be used in single user mode"
+            that: ( ubtu24cis_password_set_grub_user.stdout | length > 10 ) and '$y$' in ubtu24cis_password_set_grub_user.stdout
+            fail_msg: "Grub User {{ ubtu24cis_grub_user }} has no password set or incorrect encryption"
+            success_msg: "Grub User {{ ubtu24cis_grub_user }} has a valid password set to be used in single user mode"
         when:
-            - not ubtu22cis_set_grub_user_pass
-  when: ubtu22cis_rule_1_4_3
+            - not ubtu24cis_set_grub_user_pass
+  when: ubtu24cis_rule_1_4_3
   tags:
       - always
 
@@ -123,8 +123,8 @@
   ansible.builtin.import_tasks:
       file: parse_etc_password.yml
   when:
-      - ubtu22cis_section5 or
-        ubtu22cis_section6
+      - ubtu24cis_section5 or
+        ubtu24cis_section6
   tags:
       - always
 
@@ -137,41 +137,41 @@
 - name: Include section 1 patches
   ansible.builtin.import_tasks:
       file: section_1/main.yml
-  when: ubtu22cis_section1
+  when: ubtu24cis_section1
   tags:
       - section1
 
 - name: Include section 2 patches
   ansible.builtin.import_tasks:
       file: section_2/main.yml
-  when: ubtu22cis_section2
+  when: ubtu24cis_section2
   tags:
       - section2
 
 - name: Include section 3 patches
   ansible.builtin.import_tasks:
       file: section_3/main.yml
-  when: ubtu22cis_section3
+  when: ubtu24cis_section3
   tags:
       - section3
 
 - name: Include section 4 patches
   ansible.builtin.import_tasks:
       file: section_4/main.yml
-  when: ubtu22cis_section4
+  when: ubtu24cis_section4
   tags:
       - section4
 
 - name: Include section 5 patches
   ansible.builtin.import_tasks: section_5/main.yml
-  when: ubtu22cis_section5
+  when: ubtu24cis_section5
   tags:
       - section5
 
 - name: Include section 6 patches
   ansible.builtin.import_tasks:
       file: section_6/main.yml
-  when: ubtu22cis_section6
+  when: ubtu24cis_section6
   tags:
       - section6
 

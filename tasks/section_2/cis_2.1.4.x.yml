@@ -10,7 +10,7 @@
       - '-6'
   notify: Restart timeservice
   when:
-      - ubtu22cis_rule_2_1_4_1
+      - ubtu24cis_rule_2_1_4_1
   tags:
       - level1-server
       - level1-workstation
@@ -26,7 +26,7 @@
             regexp: '^pool.*'
             line: 'pool {{ item.name }} {{ item.options }}'
         notify: Restart timeservice
-        loop: "{{ ubtu22cis_time_pool }}"
+        loop: "{{ ubtu24cis_time_pool }}"
         loop_control:
             label: "{{ item.name }}"
 
@@ -35,12 +35,12 @@
             path: /etc/ntp.conf
             insertafter: '^server'
             line: 'server {{ item.name }} {{ item.options }}'
-        loop: "{{ ubtu22cis_time_servers }}"
+        loop: "{{ ubtu24cis_time_servers }}"
         loop_control:
             label: "{{ item.name }}"
         notify: Restart timeservice
   when:
-      - ubtu22cis_rule_2_1_4_2
+      - ubtu24cis_rule_2_1_4_2
   tags:
       - level1-server
       - level1-workstation
@@ -55,7 +55,7 @@
       line: 'RUNASUSER=ntp'
   notify: Restart timeservice
   when:
-      - ubtu22cis_rule_2_1_4_3
+      - ubtu24cis_rule_2_1_4_3
   tags:
       - level1-server
       - level1-workstation
@@ -70,7 +70,7 @@
       enabled: true
       masked: false
   when:
-      - ubtu22cis_rule_2_1_4_4
+      - ubtu24cis_rule_2_1_4_4
   tags:
       - level1-server
       - level1-workstation

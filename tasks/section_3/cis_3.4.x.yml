@@ -21,7 +21,7 @@
             mode: '0600'
 
   when:
-      - ubtu22cis_rule_3_4_1
+      - ubtu24cis_rule_3_4_1
   tags:
       - level2-server
       - level2-workstation
@@ -51,7 +51,7 @@
             mode: '0600'
 
   when:
-      - ubtu22cis_rule_3_4_2
+      - ubtu24cis_rule_3_4_2
   tags:
       - level2-server
       - level2-workstation
@@ -80,7 +80,7 @@
             create: true
             mode: '0600'
   when:
-      - ubtu22cis_rule_3_4_3
+      - ubtu24cis_rule_3_4_3
   tags:
       - level2-server
       - level2-workstation
@@ -110,7 +110,7 @@
             mode: '0600'
 
   when:
-      - ubtu22cis_rule_3_4_4
+      - ubtu24cis_rule_3_4_4
   tags:
       - level2-server
       - level2-workstation

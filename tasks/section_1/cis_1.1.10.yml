@@ -22,8 +22,8 @@
         when: ansible_connection != 'docker'
   notify: Update_Initramfs
   when:
-      - ubtu22cis_rule_1_1_10
-      - not ubtu22cis_allow_usb_storage
+      - ubtu24cis_rule_1_1_10
+      - not ubtu24cis_allow_usb_storage
   tags:
       - level1-server
       - level2-workstation

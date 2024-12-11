@@ -84,7 +84,7 @@
 
 - name: Restart timeservice
   ansible.builtin.systemd:
-      name: "{{ ubtu22cis_time_sync_tool }}"
+      name: "{{ ubtu24cis_time_sync_tool }}"
       state: restarted
 
 - name: Reload systemctl
@@ -102,7 +102,7 @@
 
 - name: Restart syslog service
   ansible.builtin.systemd:
-      name: "{{ ubtu22cis_syslog_service }}"
+      name: "{{ ubtu24cis_syslog_service }}"
       state: restarted
 
 - name: Restart journald
@@ -129,7 +129,7 @@
       sysctl_set: true
   when:
       - ansible_facts.virtualization_type != "docker"
-      - ubtu22cis_ipv6_required
+      - ubtu24cis_ipv6_required
 
 - name: Reload ufw
   community.general.ufw:
@@ -137,20 +137,20 @@
 
 - name: Iptables persistent
   ansible.builtin.shell: bash -c "iptables-save > /etc/iptables/rules.v4"
-  changed_when: ubtu22cis_iptables_save.rc == 0
-  failed_when: ubtu22cis_iptables_save.rc > 0
-  register: ubtu22cis_iptables_save
+  changed_when: ubtu24cis_iptables_save.rc == 0
+  failed_when: ubtu24cis_iptables_save.rc > 0
+  register: ubtu24cis_iptables_save
 
 - name: Ip6tables persistent
   ansible.builtin.shell: bash -c "ip6tables-save > /etc/iptables/rules.v6"
-  changed_when: ubtu22cis_ip6tables_save.rc == 0
-  failed_when: ubtu22cis_ip6tables_save.rc > 0
-  register: ubtu22cis_ip6tables_save
+  changed_when: ubtu24cis_ip6tables_save.rc == 0
+  failed_when: ubtu24cis_ip6tables_save.rc > 0
+  register: ubtu24cis_ip6tables_save
 
 - name: Auditd rules reload
   ansible.builtin.shell: augenrules --load
   when:
-      - not auditd_immutable_check or '"No change" not in ubtu22cis_rule_4_1_3_21_augen_check.stdout'
+      - not auditd_immutable_check or '"No change" not in ubtu24cis_rule_4_1_3_21_augen_check.stdout'
 
 - name: Audit_immutable_fact
   ansible.builtin.debug:

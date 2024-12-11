@@ -5,7 +5,7 @@
       name: "*"
       state: latest
   when:
-      - ubtu22cis_rule_1_9
+      - ubtu24cis_rule_1_9
   tags:
       - level1-server
       - level1-workstation

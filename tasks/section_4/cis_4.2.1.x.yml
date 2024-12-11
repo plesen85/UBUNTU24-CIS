@@ -6,22 +6,22 @@
         ansible.builtin.shell: systemctl is-enabled systemd-journald.service
         changed_when: false
         failed_when: false
-        register: ubtu22cis_4_2_1_2_status
+        register: ubtu24cis_4_2_1_2_status
 
       - name: "4.2.1.2 | AUDIT | Ensure journald service is enabled | Alert on bad status"
         ansible.builtin.debug:
             msg:
                 - "Warning!! The status of systemd-journald should be static and it is not. Please investigate"
-        when: "'static' not in ubtu22cis_4_2_1_2_status.stdout"
+        when: "'static' not in ubtu24cis_4_2_1_2_status.stdout"
 
       - name: "4.2.1.2 | AUDIT | Ensure journald service is enabled | Warn Count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: "'static' not in ubtu22cis_4_2_1_2_status.stdout"
+        when: "'static' not in ubtu24cis_4_2_1_2_status.stdout"
   vars:
       warn_control_id: '4.2.1.2'
   when:
-      - ubtu22cis_rule_4_2_1_2
+      - ubtu24cis_rule_4_2_1_2
   tags:
       - level1-server
       - level1-workstation
@@ -36,7 +36,7 @@
       line: Compress=yes
   notify: Restart journald
   when:
-      - ubtu22cis_rule_4_2_1_3
+      - ubtu24cis_rule_4_2_1_3
   tags:
       - level1-server
       - level1-workstation
@@ -51,7 +51,7 @@
       line: Storage=persistent
   notify: Restart journald
   when:
-      - ubtu22cis_rule_4_2_1_4
+      - ubtu24cis_rule_4_2_1_4
   tags:
       - level1-server
       - level1-workstation
@@ -66,7 +66,7 @@
       line: '#ForwardToSyslog=yes'
   notify: Restart journald
   when:
-      - ubtu22cis_rule_4_2_1_5
+      - ubtu24cis_rule_4_2_1_5
   tags:
       - level1-server
       - level2-workstation
@@ -82,13 +82,13 @@
       line: "{{ item.line }}"
   notify: Restart journald
   loop:
-      - { regexp: '^(#|\s+)SystemMaxUse=', line: "{{ ubtu22cis_journald_systemmaxuse }}" }
-      - { regexp: '^(#|\s+)SystemKeepFree=', line: "{{ ubtu22cis_journald_systemkeepfree }}" }
-      - { regexp: '^(#|\s+)RuntimeMaxUse=', line: "{{ ubtu22cis_journald_runtimemaxuse }}" }
-      - { regexp: '^(#|\s+)RuntimeKeepFree=', line: "{{ ubtu22cis_journald_runtimekeepfree }}" }
-      - { regexp: '^(#|\s+)MaxFileSec=', line: "{{ ubtu22cis_journald_maxfilesec }}" }
+      - { regexp: '^(#|\s+)SystemMaxUse=', line: "{{ ubtu24cis_journald_systemmaxuse }}" }
+      - { regexp: '^(#|\s+)SystemKeepFree=', line: "{{ ubtu24cis_journald_systemkeepfree }}" }
+      - { regexp: '^(#|\s+)RuntimeMaxUse=', line: "{{ ubtu24cis_journald_runtimemaxuse }}" }
+      - { regexp: '^(#|\s+)RuntimeKeepFree=', line: "{{ ubtu24cis_journald_runtimekeepfree }}" }
+      - { regexp: '^(#|\s+)MaxFileSec=', line: "{{ ubtu24cis_journald_maxfilesec }}" }
   when:
-      - ubtu22cis_rule_4_2_1_6
+      - ubtu24cis_rule_4_2_1_6
   tags:
       - level1-server
       - level1-workstation
@@ -102,12 +102,12 @@
       - name: "4.2.1.7 | AUDIT | Ensure journald default file permissions configured | Check for override file"
         ansible.builtin.stat:
             path: /etc/tmpfiles.d/systemd.conf
-        register: ubtu22cis_4_2_1_7_override
+        register: ubtu24cis_4_2_1_7_override
 
       - name: "4.2.1.7 | AUDIT | Ensure journald default file permissions configured | Set live file"
         ansible.builtin.set_fact:
             systemd_conf_file: /etc/tmpfiles.d/systemd.conf
-        when: ubtu22cis_4_2_1_7_override.stat.exists
+        when: ubtu24cis_4_2_1_7_override.stat.exists
 
       - name: "4.2.1.7 | PATCH | Ensure journald default file permissions configured | Set permission"
         ansible.builtin.lineinfile:
@@ -115,7 +115,7 @@
             regexp: '^z \/var\/log\/journal\/%m\/system.journal (!?06(0|4)0) root'
             line: 'z /var/log/journal/%m/system.journal 0640 root systemd-journal - -'
   when:
-      - ubtu22cis_rule_4_2_1_7
+      - ubtu24cis_rule_4_2_1_7
   tags:
       - level1-server
       - level1-workstation

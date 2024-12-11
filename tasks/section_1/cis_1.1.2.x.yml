@@ -14,7 +14,7 @@
       required_mount: '/tmp'
   when:
       - required_mount not in mount_names
-      - ubtu22cis_rule_1_1_2_1
+      - ubtu24cis_rule_1_1_2_1
   tags:
       - level1-server
       - level1-workstation
@@ -32,7 +32,7 @@
       required_mount: '/tmp'
   when:
       - required_mount in mount_names
-      - ubtu22cis_rule_1_1_2_2
+      - ubtu24cis_rule_1_1_2_2
   tags:
       - level1-server
       - level1-workstation
@@ -50,7 +50,7 @@
       required_mount: '/tmp'
   when:
       - required_mount in mount_names
-      - ubtu22cis_rule_1_1_2_3
+      - ubtu24cis_rule_1_1_2_3
   tags:
       - level1-server
       - level1-workstation
@@ -68,7 +68,7 @@
       required_mount: '/tmp'
   when:
       - required_mount in mount_names
-      - ubtu22cis_rule_1_1_2_4
+      - ubtu24cis_rule_1_1_2_4
   tags:
       - level1-server
       - level1-workstation

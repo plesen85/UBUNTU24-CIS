@@ -17,23 +17,23 @@
         ansible.builtin.lineinfile:
             path: /etc/security/pwquality.conf
             regexp: ^minclass
-            line: "minclass = {{ ubtu22cis_pwquality_minclass_value }}"
-        when: ubtu22cis_pwquality_minclass
+            line: "minclass = {{ ubtu24cis_pwquality_minclass_value }}"
+        when: ubtu24cis_pwquality_minclass
 
       - name: "5.4.1 | PATCH | Ensure password creation requirements are configured | Add extended keys"
         ansible.builtin.lineinfile:
             path: /etc/security/pwquality.conf
             regexp: ^{{ item.key }}
             line: "{{ item.key }} = {{ item.value }}"
-        loop: "{{ ubtu22cis_pwquality }}"
-        when: not ubtu22cis_pwquality_minclass
+        loop: "{{ ubtu24cis_pwquality }}"
+        when: not ubtu24cis_pwquality_minclass
 
       - name: "5.4.1 | AUDIT | Ensure password creation requirements are configured | Confirm pwquality module in common-password"
         ansible.builtin.shell: grep 'password.*requisite.*pam_pwquality.so' /etc/pam.d/common-password
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_5_4_1_pam_pwquality_state
+        register: ubtu24cis_5_4_1_pam_pwquality_state
 
       - name: "5.4.1 | PATCH | Ensure password creation requirements are configured | Set retry to 3 if pwquality exists"
         community.general.pamd:
@@ -43,7 +43,7 @@
             module_path: pam_pwquality.so
             module_arguments: 'retry=3'
             state: args_present
-        when: ubtu22cis_5_4_1_pam_pwquality_state.stdout | length > 0
+        when: ubtu24cis_5_4_1_pam_pwquality_state.stdout | length > 0
 
       - name: "5.4.1 | PATCH | Ensure password creation requirements are configured | Set retry to 3 if pwquality does not exist"
         community.general.pamd:
@@ -56,9 +56,9 @@
             new_module_path: pam_pwquality.so
             module_arguments: 'retry=3'
             state: after
-        when: ubtu22cis_5_4_1_pam_pwquality_state.stdout | length == 0
+        when: ubtu24cis_5_4_1_pam_pwquality_state.stdout | length == 0
   when:
-      - ubtu22cis_rule_5_4_1
+      - ubtu24cis_rule_5_4_1
   tags:
       - level1-server
       - level1-workstation
@@ -82,10 +82,10 @@
             path: /etc/pam.d/common-auth
             before: .*pam_deny.so
             regexp: .*pam_unix.so nullok
-            replace: "{{ ubtu22cis_rule_5_4_2_faillock_config }}"
+            replace: "{{ ubtu24cis_rule_5_4_2_faillock_config }}"
         when:
             - "'pam_faillock.so' not in faillock_state.stdout"
-            - ubtu22cis_allow_common_auth_rewrite
+            - ubtu24cis_allow_common_auth_rewrite
 
       - name: "5.4.2 | PATCH | Ensure lockout for failed password attempts is configured | Set faillock common-account"
         ansible.builtin.lineinfile:
@@ -105,7 +105,7 @@
             - { regexp: '^fail_interval', line: 'fail_interval = 900' }
             - { regexp: '^unlock_time', line: 'unlock_time = 600' }
   when:
-      - ubtu22cis_rule_5_4_2
+      - ubtu24cis_rule_5_4_2
   tags:
       - level1-server
       - level1-workstation
@@ -137,10 +137,10 @@
             new_module_path: pam_pwhistory.so
             new_control: required
             module_arguments: 'use_authtok
-                remember={{ ubtu22cis_pamd_pwhistory_remember }}'
+                remember={{ ubtu24cis_pamd_pwhistory_remember }}'
             state: before
   when:
-      - ubtu22cis_rule_5_4_3
+      - ubtu24cis_rule_5_4_3
   tags:
       - level1-server
       - level1-workstation
@@ -156,7 +156,7 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_5_4_4_pam_unix_state
+        register: ubtu24cis_5_4_4_pam_unix_state
 
       - name: "5.4.4 | PATCH | Ensure password hashing algorithm is up to date with the latest standards | Set hashing if pam_unix.so exists"
         community.general.pamd:
@@ -164,18 +164,18 @@
             type: password
             control: '[success=1 default=ignore]'
             module_path: pam_unix.so
-            module_arguments: "{{ ubtu22cis_passwd_hash_algo }}"
-            state: "{{ ubtu22cis_passwd_setpam_hash_algo | ternary('args_present', 'args_absent') }}"
+            module_arguments: "{{ ubtu24cis_passwd_hash_algo }}"
+            state: "{{ ubtu24cis_passwd_setpam_hash_algo | ternary('args_present', 'args_absent') }}"
         when:
-            - ubtu22cis_5_4_4_pam_unix_state.stdout | length > 0
+            - ubtu24cis_5_4_4_pam_unix_state.stdout | length > 0
 
       - name: "5.4.4 | PATCH | Ensure password hashing algorithm is up to date with the latest standards | Set hashing if pam_unix.so does not exist"
         ansible.builtin.lineinfile:
             path: /etc/login.defs
             regexp: '^ENCRYPT_METHOD'
-            line: 'ENCRYPT_METHOD {{ ubtu22cis_passwd_hash_algo }}'
+            line: 'ENCRYPT_METHOD {{ ubtu24cis_passwd_hash_algo }}'
   when:
-      - ubtu22cis_rule_5_4_4
+      - ubtu24cis_rule_5_4_4
   tags:
       - level1-server
       - level1-workstation
@@ -191,22 +191,22 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_5_4_5_passwd_hash_used
+        register: ubtu24cis_5_4_5_passwd_hash_used
 
       # This is only looking for yescrypt if sha512 need to change the $y$ to $6$
       - name: "5.4.5 | AUDIT | Ensure all current passwords uses the configured hashing algorithm | check has found"
         ansible.builtin.debug:
-            msg: "Warning!! Passwords found using not using {{ ubtu22cis_passwd_hash_algo }} algorithm - This required manual intervention"
-        when: "' $y$' not in ubtu22cis_5_4_5_passwd_hash_used.stdout"
+            msg: "Warning!! Passwords found using not using {{ ubtu24cis_passwd_hash_algo }} algorithm - This required manual intervention"
+        when: "' $y$' not in ubtu24cis_5_4_5_passwd_hash_used.stdout"
 
       - name: "5.4.5 | WARN | Ensure all current passwords uses the configured hashing algorithm | warn_count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: "' $y$' not in ubtu22cis_5_4_5_passwd_hash_used.stdout"
+        when: "' $y$' not in ubtu24cis_5_4_5_passwd_hash_used.stdout"
   vars:
       warn_control_id: '5.4.5'
   when:
-      - ubtu22cis_rule_5_4_5
+      - ubtu24cis_rule_5_4_5
   tags:
       - level1-server
       - level1-workstation

@@ -24,7 +24,7 @@
             - item.path != "/var/log/utmp"
             - item.path != "/var/log/wtmp"
   when:
-      - ubtu22cis_rule_4_2_3
+      - ubtu24cis_rule_4_2_3
   tags:
       - level1-server
       - level1-workstation

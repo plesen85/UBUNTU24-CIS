@@ -4,10 +4,10 @@
   ansible.builtin.package:
       name: nis
       state: absent
-      purge: "{{ ubtu22cis_purge_apt }}"
+      purge: "{{ ubtu24cis_purge_apt }}"
   when:
-      - ubtu22cis_rule_2_3_1
-      - not ubtu22cis_nis_required
+      - ubtu24cis_rule_2_3_1
+      - not ubtu24cis_nis_required
   tags:
       - level1-server
       - level1-workstation
@@ -18,10 +18,10 @@
   ansible.builtin.package:
       name: rsh-client
       state: absent
-      purge: "{{ ubtu22cis_purge_apt }}"
+      purge: "{{ ubtu24cis_purge_apt }}"
   when:
-      - ubtu22cis_rule_2_3_2
-      - not ubtu22cis_rsh_required
+      - ubtu24cis_rule_2_3_2
+      - not ubtu24cis_rsh_required
   tags:
       - level1-server
       - level1-workstation
@@ -34,10 +34,10 @@
   ansible.builtin.package:
       name: talk
       state: absent
-      purge: "{{ ubtu22cis_purge_apt }}"
+      purge: "{{ ubtu24cis_purge_apt }}"
   when:
-      - ubtu22cis_rule_2_3_3
-      - not ubtu22cis_talk_required
+      - ubtu24cis_rule_2_3_3
+      - not ubtu24cis_talk_required
   tags:
       - level1-server
       - level1-workstation
@@ -50,10 +50,10 @@
   ansible.builtin.package:
       name: telnet
       state: absent
-      purge: "{{ ubtu22cis_purge_apt }}"
+      purge: "{{ ubtu24cis_purge_apt }}"
   when:
-      - ubtu22cis_rule_2_3_4
-      - not ubtu22cis_telnet_required
+      - ubtu24cis_rule_2_3_4
+      - not ubtu24cis_telnet_required
   tags:
       - level1-server
       - level1-workstation
@@ -66,10 +66,10 @@
   ansible.builtin.package:
       name: ldap-utils
       state: absent
-      purge: "{{ ubtu22cis_purge_apt }}"
+      purge: "{{ ubtu24cis_purge_apt }}"
   when:
-      - ubtu22cis_rule_2_3_5
-      - not ubtu22cis_ldap_clients_required
+      - ubtu24cis_rule_2_3_5
+      - not ubtu24cis_ldap_clients_required
   tags:
       - level1-server
       - level1-workstation
@@ -82,10 +82,10 @@
   ansible.builtin.package:
       name: rpcbind
       state: absent
-      purge: "{{ ubtu22cis_purge_apt }}"
+      purge: "{{ ubtu24cis_purge_apt }}"
   when:
-      - ubtu22cis_rule_2_3_6
-      - not ubtu22cis_rpc_required
+      - ubtu24cis_rule_2_3_6
+      - not ubtu24cis_rpc_required
   tags:
       - level1-server
       - level1-workstation

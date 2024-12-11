@@ -15,8 +15,8 @@
 # Approved by Ubuntu Technical Board on 2011-02-08.
 # See http://www.pool.ntp.org/join.html for more information.
 
-{% for server in ubtu22cis_time_synchronization_servers -%}
-server {{ server }} {{ ubtu22cis_chrony_server_options }}
+{% for server in ubtu24cis_time_synchronization_servers -%}
+server {{ server }} {{ ubtu24cis_chrony_server_options }}
 {% endfor %}
 
 # This directive specify the location of the file containing ID/key pairs for
@@ -90,4 +90,4 @@ logchange 0.5
 # change it if necessary.
 rtconutc
 
-user {{ ubtu22cis_chrony_user }}
+user {{ ubtu24cis_chrony_user }}

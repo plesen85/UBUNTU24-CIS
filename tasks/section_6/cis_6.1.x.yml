@@ -7,7 +7,7 @@
       group: root
       mode: '0644'
   when:
-      - ubtu22cis_rule_6_1_1
+      - ubtu24cis_rule_6_1_1
   tags:
       - level1-server
       - level1-workstation
@@ -24,7 +24,7 @@
   failed_when: discovered_file_exists.state not in '[ file, absent ]'
   register: discovered_file_exists
   when:
-      - ubtu22cis_rule_6_1_2
+      - ubtu24cis_rule_6_1_2
   tags:
       - level1-server
       - level1-workstation
@@ -39,7 +39,7 @@
       group: root
       mode: '0644'
   when:
-      - ubtu22cis_rule_6_1_3
+      - ubtu24cis_rule_6_1_3
   tags:
       - level1-server
       - level1-workstation
@@ -54,7 +54,7 @@
       group: root
       mode: '0644'
   when:
-      - ubtu22cis_rule_6_1_4
+      - ubtu24cis_rule_6_1_4
   tags:
       - level1-server
       - level1-workstation
@@ -69,7 +69,7 @@
       group: root
       mode: '0640'
   when:
-      - ubtu22cis_rule_6_1_5
+      - ubtu24cis_rule_6_1_5
   tags:
       - level1-server
       - level1-workstation
@@ -84,7 +84,7 @@
       group: root
       mode: '0640'
   when:
-      - ubtu22cis_rule_6_1_6
+      - ubtu24cis_rule_6_1_6
   tags:
       - level1-server
       - level1-workstation
@@ -99,7 +99,7 @@
       group: root
       mode: '0640'
   when:
-      - ubtu22cis_rule_6_1_7
+      - ubtu24cis_rule_6_1_7
   tags:
       - level1-server
       - level1-workstation
@@ -114,7 +114,7 @@
       group: root
       mode: '0640'
   when:
-      - ubtu22cis_rule_6_1_8
+      - ubtu24cis_rule_6_1_8
   tags:
       - level1-server
       - level1-workstation
@@ -138,9 +138,9 @@
         loop: "{{ rhel_09_6_1_9_perms_results.stdout_lines }}"
         when:
             - rhel_09_6_1_9_perms_results.stdout_lines is defined
-            - ubtu22cis_no_world_write_adjust
+            - ubtu24cis_no_world_write_adjust
   when:
-      - ubtu22cis_rule_6_1_9
+      - ubtu24cis_rule_6_1_9
   tags:
       - level1-server
       - level1-workstation
@@ -156,7 +156,7 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_1_10_no_user_items
+        register: ubtu24cis_6_1_10_no_user_items
         with_items:
             - "{{ ansible_facts.mounts }}"
         loop_control:
@@ -164,38 +164,38 @@
 
       - name: "6.1.10 | AUDIT | Ensure no unowned files or directories exist | Flatten no_user_items results for easier use"
         ansible.builtin.set_fact:
-            ubtu22cis_6_1_10_no_user_items_flatten: "{{ ubtu22cis_6_1_10_no_user_items.results | map(attribute='stdout_lines') | flatten }}"
+            ubtu24cis_6_1_10_no_user_items_flatten: "{{ ubtu24cis_6_1_10_no_user_items.results | map(attribute='stdout_lines') | flatten }}"
 
       - name: "6.1.10 | AUDIT | Ensure no unowned files or directories exist | Alert on unowned files and directories"
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have unowned files and are configured to not auto-remediate for this task"
                 - "Please review the files/directories below and assign an owner"
-                - "{{ ubtu22cis_6_1_10_no_user_items_flatten }}"
+                - "{{ ubtu24cis_6_1_10_no_user_items_flatten }}"
         when:
-            - not ubtu22cis_no_owner_adjust
-            - ubtu22cis_6_1_10_no_user_items_flatten | length > 0
+            - not ubtu24cis_no_owner_adjust
+            - ubtu24cis_6_1_10_no_user_items_flatten | length > 0
 
       - name: "6.1.10 | PATCH | Ensure no unowned files or directories exist | Set unowned files/directories to configured owner"
         ansible.builtin.file:
             path: "{{ item }}"
-            owner: "{{ ubtu22cis_unowned_owner }}"
+            owner: "{{ ubtu24cis_unowned_owner }}"
         with_items:
-            - "{{ ubtu22cis_6_1_10_no_user_items_flatten }}"
+            - "{{ ubtu24cis_6_1_10_no_user_items_flatten }}"
         when:
-            - ubtu22cis_no_owner_adjust
-            - ubtu22cis_6_1_10_no_user_items_flatten | length > 0
+            - ubtu24cis_no_owner_adjust
+            - ubtu24cis_6_1_10_no_user_items_flatten | length > 0
 
       - name: "6.1.10 | AUDIT | Ensure no unowned files or directories exist | Warn Count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
         when:
-            - not ubtu22cis_no_owner_adjust
-            - ubtu22cis_6_1_10_no_user_items_flatten | length > 0
+            - not ubtu24cis_no_owner_adjust
+            - ubtu24cis_6_1_10_no_user_items_flatten | length > 0
         vars:
             warn_control_id: '6.1.10'
   when:
-      - ubtu22cis_rule_6_1_10
+      - ubtu24cis_rule_6_1_10
   tags:
       - level1-server
       - level1-workstation
@@ -211,7 +211,7 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_1_11_ungrouped_items
+        register: ubtu24cis_6_1_11_ungrouped_items
         with_items:
             - "{{ ansible_facts.mounts }}"
         loop_control:
@@ -219,38 +219,38 @@
 
       - name: "6.1.11 | AUDIT | Ensure no ungrouped files or directories exist | Flatten ungrouped_items results for easier use"
         ansible.builtin.set_fact:
-            ubtu22cis_6_1_11_ungrouped_items_flatten: "{{ ubtu22cis_6_1_11_ungrouped_items.results | map(attribute='stdout_lines') | flatten }}"
+            ubtu24cis_6_1_11_ungrouped_items_flatten: "{{ ubtu24cis_6_1_11_ungrouped_items.results | map(attribute='stdout_lines') | flatten }}"
 
       - name: "6.1.11 | AUDIT | Ensure no ungrouped files or directories exist | Alert on ungrouped files and directories"
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have ungrouped files/directories and are configured to not auto-remediate for this task"
                 - "Please review the files/directories below and assign a group"
-                - "{{ ubtu22cis_6_1_11_ungrouped_items_flatten }}"
+                - "{{ ubtu24cis_6_1_11_ungrouped_items_flatten }}"
         when:
-            - not ubtu22cis_no_group_adjust
-            - ubtu22cis_6_1_11_ungrouped_items_flatten | length > 0
+            - not ubtu24cis_no_group_adjust
+            - ubtu24cis_6_1_11_ungrouped_items_flatten | length > 0
 
       - name: "6.1.11 | PATCH | Ensure no ungrouped files or directories exist | Set ungrouped files/directories to configured group"
         ansible.builtin.file:
             path: "{{ item }}"
-            group: "{{ ubtu22cis_ungrouped_group }}"
+            group: "{{ ubtu24cis_ungrouped_group }}"
         with_items:
-            - "{{ ubtu22cis_6_1_11_ungrouped_items_flatten }}"
+            - "{{ ubtu24cis_6_1_11_ungrouped_items_flatten }}"
         when:
-            - ubtu22cis_no_group_adjust
-            - ubtu22cis_6_1_11_ungrouped_items_flatten | length > 0
+            - ubtu24cis_no_group_adjust
+            - ubtu24cis_6_1_11_ungrouped_items_flatten | length > 0
 
       - name: "6.1.11 | AUDIT | Ensure no ungrouped files or directories exist | Warn Count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
         when:
-            - not ubtu22cis_no_group_adjust
-            - ubtu22cis_6_1_11_ungrouped_items_flatten | length > 0
+            - not ubtu24cis_no_group_adjust
+            - ubtu24cis_6_1_11_ungrouped_items_flatten | length > 0
         vars:
             warn_control_id: '6.1.11'
   when:
-      - ubtu22cis_rule_6_1_11
+      - ubtu24cis_rule_6_1_11
   tags:
       - level1-server
       - level1-workstation
@@ -266,7 +266,7 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_1_12_suid_executables
+        register: ubtu24cis_6_1_12_suid_executables
         with_items:
             - "{{ ansible_facts.mounts }}"
         loop_control:
@@ -274,38 +274,38 @@
 
       - name: "6.1.12 | AUDIT | Audit SUID executables | Flatten suid_executables results for easier use"
         ansible.builtin.set_fact:
-            ubtu22cis_6_1_12_suid_executables_flatten: "{{ ubtu22cis_6_1_12_suid_executables.results | map(attribute='stdout_lines') | flatten }}"
+            ubtu24cis_6_1_12_suid_executables_flatten: "{{ ubtu24cis_6_1_12_suid_executables.results | map(attribute='stdout_lines') | flatten }}"
 
       - name: "6.1.12 | AUDIT | Audit SUID executables | Alert SUID executables exist"
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have SUID executables"
                 - "The files are listed below, please confirm the integrity of these binaries"
-                - "{{ ubtu22cis_6_1_12_suid_executables_flatten }}"
+                - "{{ ubtu24cis_6_1_12_suid_executables_flatten }}"
         when:
-            - ubtu22cis_6_1_12_suid_executables_flatten | length > 0
-            - not ubtu22cis_suid_adjust
+            - ubtu24cis_6_1_12_suid_executables_flatten | length > 0
+            - not ubtu24cis_suid_adjust
 
       - name: "6.1.12 | PATCH | Audit SUID executables | Remove SUID bit"
         ansible.builtin.file:
             path: "{{ item }}"
             mode: 'u-s'
         with_items:
-            - "{{ ubtu22cis_6_1_12_suid_executables_flatten }}"
+            - "{{ ubtu24cis_6_1_12_suid_executables_flatten }}"
         when:
-            - ubtu22cis_suid_adjust
-            - ubtu22cis_6_1_12_suid_executables_flatten | length > 0
+            - ubtu24cis_suid_adjust
+            - ubtu24cis_6_1_12_suid_executables_flatten | length > 0
 
       - name: "6.1.12 | AUDIT | Audit SUID executables | Warn Count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
         when:
-            - ubtu22cis_6_1_12_suid_executables_flatten | length > 0
-            - not ubtu22cis_suid_adjust
+            - ubtu24cis_6_1_12_suid_executables_flatten | length > 0
+            - not ubtu24cis_suid_adjust
         vars:
             warn_control_id: '6.1.12'
   when:
-      - ubtu22cis_rule_6_1_12
+      - ubtu24cis_rule_6_1_12
   tags:
       - level1-server
       - level1-workstation
@@ -321,7 +321,7 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_1_13_sgid_executables
+        register: ubtu24cis_6_1_13_sgid_executables
         with_items:
             - "{{ ansible_facts.mounts }}"
         loop_control:
@@ -329,38 +329,38 @@
 
       - name: "6.1.13 | AUDIT | Audit SGID executables | Flatten sgid_executables results for easier use"
         ansible.builtin.set_fact:
-            ubtu22cis_6_1_13_sgid_executables_flatten: "{{ ubtu22cis_6_1_13_sgid_executables.results | map(attribute='stdout_lines') | flatten }}"
+            ubtu24cis_6_1_13_sgid_executables_flatten: "{{ ubtu24cis_6_1_13_sgid_executables.results | map(attribute='stdout_lines') | flatten }}"
 
       - name: "6.1.13 | AUDIT | Audit SGID executables | Alert SGID executables exist"
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have SGID executables"
                 - "The files are listed below, please review the integrity of these binaries"
-                - "{{ ubtu22cis_6_1_13_sgid_executables_flatten }}"
+                - "{{ ubtu24cis_6_1_13_sgid_executables_flatten }}"
         when:
-            - ubtu22cis_6_1_13_sgid_executables_flatten | length > 0
-            - not ubtu22cis_sgid_adjust
+            - ubtu24cis_6_1_13_sgid_executables_flatten | length > 0
+            - not ubtu24cis_sgid_adjust
 
       - name: "6.1.13 | AUDIT | Audit SGID executables | Warn Count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
         when:
-            - ubtu22cis_6_1_13_sgid_executables_flatten | length > 0
-            - not ubtu22cis_sgid_adjust
+            - ubtu24cis_6_1_13_sgid_executables_flatten | length > 0
+            - not ubtu24cis_sgid_adjust
 
       - name: "6.1.13 | PATCH | Audit SGID executables | Remove SGID bit"
         ansible.builtin.file:
             path: "{{ item }}"
             mode: 'g-s'
         with_items:
-            - "{{ ubtu22cis_6_1_13_sgid_executables_flatten }}"
+            - "{{ ubtu24cis_6_1_13_sgid_executables_flatten }}"
         when:
-            - ubtu22cis_sgid_adjust
-            - ubtu22cis_6_1_13_sgid_executables_flatten | length > 0
+            - ubtu24cis_sgid_adjust
+            - ubtu24cis_6_1_13_sgid_executables_flatten | length > 0
   vars:
       warn_control_id: '6.1.13'
   when:
-      - ubtu22cis_rule_6_1_13
+      - ubtu24cis_rule_6_1_13
   tags:
       - level1-server
       - level1-workstation

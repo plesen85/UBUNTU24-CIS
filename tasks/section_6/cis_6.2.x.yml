@@ -6,23 +6,23 @@
         ansible.builtin.shell: awk -F':' '($2 != "x" ) { print $1}' /etc/passwd
         changed_when: false
         failed_when: false
-        register: ubtu22cis_6_2_1_nonshadowed_users
+        register: ubtu24cis_6_2_1_nonshadowed_users
 
       - name: "6.2.1 | AUDIT | Ensure accounts in /etc/passwd use shadowed passwords | Warn on findings"
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have users that are not using a shadowed password. Please convert the below accounts to use a shadowed password"
-                - "{{ ubtu22cis_6_2_1_nonshadowed_users.stdout_lines }}"
-        when: ubtu22cis_6_2_1_nonshadowed_users.stdout | length > 0
+                - "{{ ubtu24cis_6_2_1_nonshadowed_users.stdout_lines }}"
+        when: ubtu24cis_6_2_1_nonshadowed_users.stdout | length > 0
 
       - name: "6.2.1 | WARN | Ensure accounts in /etc/passwd use shadowed passwords | warn_count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: ubtu22cis_6_2_1_nonshadowed_users.stdout | length > 0
+        when: ubtu24cis_6_2_1_nonshadowed_users.stdout | length > 0
   vars:
       warn_control_id: '6.2.1'
   when:
-      - ubtu22cis_rule_6_2_1
+      - ubtu24cis_rule_6_2_1
   tags:
       - level1-server
       - level1-workstation
@@ -37,17 +37,17 @@
         ansible.builtin.shell: awk -F":" '($2 == "" ) { print $1 }' /etc/shadow
         changed_when: false
         check_mode: false
-        register: ubtu22cis_6_2_2_empty_password_acct
+        register: ubtu24cis_6_2_2_empty_password_acct
 
       - name: "6.2.2 | PATCH | Ensure /etc/shadow password fields are not empty | Lock users with empty password"
         ansible.builtin.user:
             name: "{{ item }}"
             password_lock: true
         with_items:
-            - "{{ ubtu22cis_6_2_2_empty_password_acct.stdout_lines }}"
-        when: ubtu22cis_6_2_2_empty_password_acct.stdout | length > 0
+            - "{{ ubtu24cis_6_2_2_empty_password_acct.stdout_lines }}"
+        when: ubtu24cis_6_2_2_empty_password_acct.stdout | length > 0
   when:
-      - ubtu22cis_rule_6_2_2
+      - ubtu24cis_rule_6_2_2
   tags:
       - level1-server
       - level1-workstation
@@ -64,26 +64,26 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_2_3_passwd_gid_check
+        register: ubtu24cis_6_2_3_passwd_gid_check
 
       - name: "6.2.3 | AUDIT | Ensure all groups in /etc/passwd exist in /etc/group | Print message that all groups match between passwd and group files"
         ansible.builtin.debug:
             msg: "Good News! There are no users that have non-existent GUIDs (Groups)"
-        when: ubtu22cis_6_2_3_passwd_gid_check.stdout | length == 0
+        when: ubtu24cis_6_2_3_passwd_gid_check.stdout | length == 0
 
       - name: "6.2.3 | AUDIT | Ensure all groups in /etc/passwd exist in /etc/group | Print warning about users with invalid GIDs missing GID entries in /etc/group"
         ansible.builtin.debug:
-            msg: "Warning!! The following users have non-existent GIDs (Groups): {{ ubtu22cis_6_2_3_passwd_gid_check.stdout_lines | join (', ') }}"
-        when: ubtu22cis_6_2_3_passwd_gid_check.stdout | length > 0
+            msg: "Warning!! The following users have non-existent GIDs (Groups): {{ ubtu24cis_6_2_3_passwd_gid_check.stdout_lines | join (', ') }}"
+        when: ubtu24cis_6_2_3_passwd_gid_check.stdout | length > 0
 
       - name: "6.2.3 | WARN | Ensure all groups in /etc/passwd exist in /etc/group | warn_count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: ubtu22cis_6_2_3_passwd_gid_check.stdout | length > 0
+        when: ubtu24cis_6_2_3_passwd_gid_check.stdout | length > 0
   vars:
       warn_control_id: '6.2.3'
   when:
-      - ubtu22cis_rule_6_2_3
+      - ubtu24cis_rule_6_2_3
   tags:
       - level1-server
       - level1-workstation
@@ -112,7 +112,7 @@
   vars:
       warn_control_id: '6.2.4'
   when:
-      - ubtu22cis_rule_6_2_4
+      - ubtu24cis_rule_6_2_4
   tags:
       - level1-server
       - level1-workstation
@@ -128,21 +128,21 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_2_5_user_uid_check
+        register: ubtu24cis_6_2_5_user_uid_check
 
       - name: "6.2.5 | AUDIT | Ensure no duplicate UIDs exist | Print warning about users with duplicate UIDs"
         ansible.builtin.debug:
-            msg: "Warning!! The following users have UIDs that are duplicates: {{ ubtu22cis_6_2_5_user_uid_check.stdout_lines }}"
-        when: ubtu22cis_6_2_5_user_uid_check.stdout | length > 0
+            msg: "Warning!! The following users have UIDs that are duplicates: {{ ubtu24cis_6_2_5_user_uid_check.stdout_lines }}"
+        when: ubtu24cis_6_2_5_user_uid_check.stdout | length > 0
 
       - name: "6.2.5 | AUDIT | Ensure no duplicate UIDs exist | Set warning count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: ubtu22cis_6_2_5_user_uid_check.stdout | length > 0
+        when: ubtu24cis_6_2_5_user_uid_check.stdout | length > 0
   vars:
       warn_control_id: '6.2.5'
   when:
-      - ubtu22cis_rule_6_2_5
+      - ubtu24cis_rule_6_2_5
   tags:
       - level1-server
       - level1-workstation
@@ -158,21 +158,21 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_2_6_user_user_check
+        register: ubtu24cis_6_2_6_user_user_check
 
       - name: "6.2.6 | AUDIT | Ensure no duplicate GIDs exist | Print warning about users with duplicate GIDs"
         ansible.builtin.debug:
-            msg: "Warning!! The following groups have duplicate GIDs: {{ ubtu22cis_6_2_14_user_user_check.stdout_lines }}"
-        when: ubtu22cis_6_2_6_user_user_check.stdout | length > 0
+            msg: "Warning!! The following groups have duplicate GIDs: {{ ubtu24cis_6_2_14_user_user_check.stdout_lines }}"
+        when: ubtu24cis_6_2_6_user_user_check.stdout | length > 0
 
       - name: "6.2.6 | AUDIT | Ensure no duplicate GIDs exist | Set warning count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: ubtu22cis_6_2_6_user_user_check.stdout | length > 0
+        when: ubtu24cis_6_2_6_user_user_check.stdout | length > 0
   vars:
       warn_control_id: '6.2.6'
   when:
-      - ubtu22cis_rule_6_2_6
+      - ubtu24cis_rule_6_2_6
   tags:
       - level1-server
       - level1-workstation
@@ -188,21 +188,21 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_2_7_user_username_check
+        register: ubtu24cis_6_2_7_user_username_check
 
       - name: "6.2.7 | AUDIT | Ensure no duplicate user names exist | Print warning about users with duplicate User Names"
         ansible.builtin.debug:
-            msg: "Warning!! The following user names are duplicates: {{ ubtu22cis_6_2_7_user_username_check.stdout_lines }}"
-        when: ubtu22cis_6_2_7_user_username_check.stdout | length > 0
+            msg: "Warning!! The following user names are duplicates: {{ ubtu24cis_6_2_7_user_username_check.stdout_lines }}"
+        when: ubtu24cis_6_2_7_user_username_check.stdout | length > 0
 
       - name: "6.2.7 | AUDIT | Ensure no duplicate user names exist | Set warning count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: ubtu22cis_6_2_7_user_username_check.stdout | length > 0
+        when: ubtu24cis_6_2_7_user_username_check.stdout | length > 0
   vars:
       warn_control_id: '6.2.7'
   when:
-      - ubtu22cis_rule_6_2_7
+      - ubtu24cis_rule_6_2_7
   tags:
       - level1-server
       - level1-workstation
@@ -218,21 +218,21 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_2_8_group_group_check
+        register: ubtu24cis_6_2_8_group_group_check
 
       - name: "6.2.8 | AUDIT | Ensure no duplicate group names exist | Print warning about users with duplicate group names"
         ansible.builtin.debug:
-            msg: "Warning!! The following group names are duplicates: {{ ubtu22cis_6_2_8_group_group_check.stdout_lines }}"
-        when: ubtu22cis_6_2_8_group_group_check.stdout | length > 0
+            msg: "Warning!! The following group names are duplicates: {{ ubtu24cis_6_2_8_group_group_check.stdout_lines }}"
+        when: ubtu24cis_6_2_8_group_group_check.stdout | length > 0
 
       - name: "6.2.8 | AUDIT | Ensure no duplicate group names exist | Set warning count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: ubtu22cis_6_2_8_group_group_check.stdout | length > 0
+        when: ubtu24cis_6_2_8_group_group_check.stdout | length > 0
   vars:
       warn_control_id: '6.2.8'
   when:
-      - ubtu22cis_rule_6_2_8
+      - ubtu24cis_rule_6_2_8
   tags:
       - level1-server
       - level1-workstation
@@ -246,16 +246,16 @@
       - name: "6.2.9 | AUDIT | Ensure root PATH Integrity | Get root paths"
         ansible.builtin.shell: sudo -Hiu root env | grep '^PATH' | cut -d= -f2
         changed_when: false
-        register: ubtu22cis_6_2_9_root_paths
+        register: ubtu24cis_6_2_9_root_paths
 
       - name: "6.2.9 | AUDIT | Ensure root PATH Integrity | Get root paths"
         ansible.builtin.shell: sudo -Hiu root env | grep '^PATH' | cut -d= -f2 | tr ":" "\n"
         changed_when: false
-        register: ubtu22cis_6_2_9_root_paths_split
+        register: ubtu24cis_6_2_9_root_paths_split
 
       - name: "6.2.9 | AUDIT | Ensure root PATH Integrity | Set fact"
         ansible.builtin.set_fact:
-            root_paths: "{{ ubtu22cis_6_2_9_root_paths.stdout }}"
+            root_paths: "{{ ubtu24cis_6_2_9_root_paths.stdout }}"
 
       - name: "6.2.9 | AUDIT | Ensure root PATH Integrity | Check for empty dirs"
         ansible.builtin.shell: 'echo {{ root_paths }} | grep -q "::" && echo "roots path contains a empty directory (::)"'
@@ -275,7 +275,7 @@
               ansible.builtin.stat:
                   path: "{{ item }}"
               register: root_path_perms
-              loop: "{{ ubtu22cis_6_2_9_root_paths_split.stdout_lines }}"
+              loop: "{{ ubtu24cis_6_2_9_root_paths_split.stdout_lines }}"
 
             - name: "6.2.9 | AUDIT | Ensure root PATH Integrity | Set permissions"
               ansible.builtin.file:
@@ -292,10 +292,10 @@
                   - item.stat.exists
                   - item.stat.isdir
                   - item.stat.pw_name != 'root' or item.stat.gr_name != 'root' or item.stat.woth or item.stat.wgrp
-                  - (item != 'root') and (not ubtu22cis_uses_root)
+                  - (item != 'root') and (not ubtu24cis_uses_root)
 
   when:
-      - ubtu22cis_rule_6_2_9
+      - ubtu24cis_rule_6_2_9
   tags:
       - level1-server
       - level1-workstation
@@ -307,10 +307,10 @@
   ansible.builtin.shell: passwd -l {{ item }}
   changed_when: false
   failed_when: false
-  loop: "{{ ubtu22cis_uid_zero_accounts_except_root.stdout_lines }}"
+  loop: "{{ ubtu24cis_uid_zero_accounts_except_root.stdout_lines }}"
   when:
-      - ubtu22cis_rule_6_2_10
-      - ubtu22cis_uid_zero_accounts_except_root.rc
+      - ubtu24cis_rule_6_2_10
+      - ubtu24cis_uid_zero_accounts_except_root.rc
   tags:
       - level1-server
       - level1-workstation
@@ -327,8 +327,8 @@
             state: directory
             owner: "{{ item.id }}"
             group: "{{ item.gid }}"
-        register: ubtu22cis_6_2_11_home_dir
-        loop: "{{ ubtu22cis_passwd  | selectattr('uid', '>=', min_int_uid | int ) | selectattr('uid', '<=', max_int_uid | int ) | list }}"
+        register: ubtu24cis_6_2_11_home_dir
+        loop: "{{ ubtu24cis_passwd  | selectattr('uid', '>=', min_int_uid | int ) | selectattr('uid', '<=', max_int_uid | int ) | list }}"
         loop_control:
             label: "{{ item.id }}"
 
@@ -353,7 +353,7 @@
         loop: "{{ interactive_users_home.stdout_lines }}"
         when: not system_is_container
   when:
-      - ubtu22cis_rule_6_2_11
+      - ubtu24cis_rule_6_2_11
   tags:
       - level1-server
       - level1-workstation
@@ -366,7 +366,7 @@
       path: "{{ item.dir }}"
       owner: "{{ item.id }}"
       state: directory
-  loop: "{{ ubtu22cis_passwd | selectattr('uid', '>=', min_int_uid | int ) | selectattr('uid', '<=', max_int_uid | int ) | list }}"
+  loop: "{{ ubtu24cis_passwd | selectattr('uid', '>=', min_int_uid | int ) | selectattr('uid', '<=', max_int_uid | int ) | list }}"
   loop_control:
       label: "{{ item.id }}"
   when:
@@ -374,7 +374,7 @@
       - item.id != 'nobody'
       - (item.id != 'tss' and item.dir != '/dev/null')
       - item.shell != '/sbin/nologin'
-      - ubtu22cis_rule_6_2_12
+      - ubtu24cis_rule_6_2_12
   tags:
       - level1-server
       - level1-workstation
@@ -422,7 +422,7 @@
         loop: "{{ interactive_users_home.stdout_lines }}"
         when: not system_is_container
   when:
-      - ubtu22cis_rule_6_2_13
+      - ubtu24cis_rule_6_2_13
   tags:
       - level1-server
       - level1-workstation
@@ -438,8 +438,8 @@
   with_items:
       - "{{ interactive_users_home.stdout_lines }}"
   when:
-      - ubtu22cis_rule_6_2_14
-      - ubtu22cis_disruption_high
+      - ubtu24cis_rule_6_2_14
+      - ubtu24cis_disruption_high
   tags:
       - level1-server
       - level1-workstation
@@ -455,8 +455,8 @@
   with_items:
       - "{{ interactive_users_home.stdout_lines }}"
   when:
-      - ubtu22cis_rule_6_2_15
-      - ubtu22cis_disruption_high
+      - ubtu24cis_rule_6_2_15
+      - ubtu24cis_disruption_high
   tags:
       - level1-server
       - level1-workstation
@@ -472,8 +472,8 @@
   with_items:
       - "{{ interactive_users_home.stdout_lines }}"
   when:
-      - ubtu22cis_rule_6_2_16
-      - ubtu22cis_disruption_high
+      - ubtu24cis_rule_6_2_16
+      - ubtu24cis_disruption_high
   tags:
       - level1-server
       - level1-workstation
@@ -489,36 +489,36 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_6_2_17_audit
+        register: ubtu24cis_6_2_17_audit
 
       - name: "6.2.17 | AUDIT | Ensure users' dot files are not group or world-writable | Warning on files found"
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have group or world-writable dot files on your system and have configured for manual intervention"
         when:
-            - ubtu22cis_6_2_17_audit.stdout | length > 0
-            - ubtu22cis_dotperm_ansiblemanaged
+            - ubtu24cis_6_2_17_audit.stdout | length > 0
+            - ubtu24cis_dotperm_ansiblemanaged
 
       - name: "6.2.17 | PATCH | Ensure users' dot files are not group or world writable | Set warning count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
         when:
-            - ubtu22cis_6_2_17_audit.stdout | length > 0
-            - ubtu22cis_dotperm_ansiblemanaged
+            - ubtu24cis_6_2_17_audit.stdout | length > 0
+            - ubtu24cis_dotperm_ansiblemanaged
 
       - name: "6.2.17 | PATCH | Ensure users' dot files are not group or world-writable | Changes files if configured"
         ansible.builtin.file:
             path: '{{ item }}'
             mode: go-w
-        with_items: "{{ ubtu22cis_6_2_17_audit.stdout_lines }}"
+        with_items: "{{ ubtu24cis_6_2_17_audit.stdout_lines }}"
         when:
-            - ubtu22cis_6_2_17_audit.stdout | length > 0
-            - ubtu22cis_dotperm_ansiblemanaged
+            - ubtu24cis_6_2_17_audit.stdout | length > 0
+            - ubtu24cis_dotperm_ansiblemanaged
   vars:
       warn_control_id: '6.2.17'
   when:
-      - ubtu22cis_rule_6_2_17
-      - ubtu22cis_disruption_high
+      - ubtu24cis_rule_6_2_17
+      - ubtu24cis_disruption_high
   tags:
       - level1-server
       - level1-workstation

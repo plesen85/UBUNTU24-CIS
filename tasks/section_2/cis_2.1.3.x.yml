@@ -21,7 +21,7 @@
             - "etc/systemd/timesyncd.conf.d/50-timesyncd.conf"
         notify: Restart timeservice
   when:
-      - ubtu22cis_rule_2_1_3_1
+      - ubtu24cis_rule_2_1_3_1
   tags:
       - level1-server
       - level1-workstation
@@ -36,7 +36,7 @@
       enabled: true
       masked: false
   when:
-      - ubtu22cis_rule_2_1_3_2
+      - ubtu24cis_rule_2_1_3_2
   tags:
       - level1-server
       - level1-workstation

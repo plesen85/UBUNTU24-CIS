@@ -17,9 +17,9 @@
             - { regexp: '(session\s+optional\s+pam_motd.so\s+motd=/run/motd.dynamic)', line: '# \1' }
             - { regexp: '(session\s+optional\s+pam_motd.so noupdate)', line: '# \1' }
             - { regexp: '# Pam_motd.so disabled for CIS benchmark', line: '# Pam_motd.so disabled for CIS benchmark' }
-        when: ubtu22cis_disable_dynamic_motd
+        when: ubtu24cis_disable_dynamic_motd
   when:
-      - ubtu22cis_rule_1_7_1
+      - ubtu24cis_rule_1_7_1
   tags:
       - level1-server
       - level1-workstation
@@ -39,7 +39,7 @@
         community.general.dpkg_divert:
             path: /etc/issue
   when:
-      - ubtu22cis_rule_1_7_2
+      - ubtu24cis_rule_1_7_2
   tags:
       - level1-server
       - level1-workstation
@@ -59,7 +59,7 @@
         community.general.dpkg_divert:
             path: /etc/issue.net
   when:
-      - ubtu22cis_rule_1_7_3
+      - ubtu24cis_rule_1_7_3
   tags:
       - level1-server
       - level1-workstation
@@ -75,7 +75,7 @@
       group: root
       mode: '0644'
   when:
-      - ubtu22cis_rule_1_7_4
+      - ubtu24cis_rule_1_7_4
   tags:
       - level1-server
       - level1-workstation
@@ -92,7 +92,7 @@
       group: root
       mode: '0644'
   when:
-      - ubtu22cis_rule_1_7_5
+      - ubtu24cis_rule_1_7_5
   tags:
       - level1-server
       - level1-workstation
@@ -109,7 +109,7 @@
       group: root
       mode: '0644'
   when:
-      - ubtu22cis_rule_1_7_6
+      - ubtu24cis_rule_1_7_6
   tags:
       - level1-server
       - level1-workstation

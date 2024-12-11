@@ -24,4 +24,4 @@
       mode: '0600'
   notify: Restart auditd
   when:
-      - ubtu22cis_allow_auditd_uid_user_exclusions
+      - ubtu24cis_allow_auditd_uid_user_exclusions

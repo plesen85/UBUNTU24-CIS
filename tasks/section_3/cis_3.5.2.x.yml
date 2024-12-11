@@ -17,8 +17,8 @@
   vars:
       warn_control_id: '3.5.2.1'
   when:
-      - ubtu22cis_rule_3_5_2_1
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_1
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -42,8 +42,8 @@
   vars:
       warn_control_id: '3.5.2.2'
   when:
-      - ubtu22cis_rule_3_5_2_2
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_2
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -66,8 +66,8 @@
   vars:
       warn_control_id: '3.5.2.3'
   when:
-      - ubtu22cis_rule_3_5_2_3
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_3
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -81,11 +81,11 @@
       - name: "3.5.2.4 | AUDIT | Ensure a nftables table exists"
         ansible.builtin.debug:
             msg: "Warning!! NFTables is not supported in this role. Please use UFW, iptables, or manually manage nftables | Message out warning"
-            # ansible.builtin.shell: "nft create table {{ ubtu22cis_nftables_table_name }}"
-            # changed_when: ubtu22cis_3_5_2_4_new_table.rc == 0
+            # ansible.builtin.shell: "nft create table {{ ubtu24cis_nftables_table_name }}"
+            # changed_when: ubtu24cis_3_5_2_4_new_table.rc == 0
             # failed_when: false
             # check_mode: false
-            # register: ubtu22cis_3_5_2_4_new_table
+            # register: ubtu24cis_3_5_2_4_new_table
 
       - name: "3.5.2.4 | AUDIT | Ensure a nftables table exists | Set warning count"
         ansible.builtin.import_tasks:
@@ -93,8 +93,8 @@
   vars:
       warn_control_id: '3.5.2.4'
   when:
-      - ubtu22cis_rule_3_5_2_4
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_4
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -115,8 +115,8 @@
   vars:
       warn_control_id: '3.5.2.5'
   when:
-      - ubtu22cis_rule_3_5_2_5
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_5
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -137,8 +137,8 @@
   vars:
       warn_control_id: '3.5.2.6'
   when:
-      - ubtu22cis_rule_3_5_2_6
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_6
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -159,8 +159,8 @@
   vars:
       warn_control_id: '3.5.2.7'
   when:
-      - ubtu22cis_rule_3_5_2_7
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_7
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -181,8 +181,8 @@
   vars:
       warn_control_id: '3.5.2.8'
   when:
-      - ubtu22cis_rule_3_5_2_8
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_8
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -207,8 +207,8 @@
   vars:
       warn_control_id: '3.5.2.9'
   when:
-      - ubtu22cis_rule_3_5_2_9
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_9
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation
@@ -229,8 +229,8 @@
   vars:
       warn_control_id: '3.5.2.10'
   when:
-      - ubtu22cis_rule_3_5_2_10
-      - ubtu22cis_firewall_package == "nftables"
+      - ubtu24cis_rule_3_5_2_10
+      - ubtu24cis_firewall_package == "nftables"
   tags:
       - level1-server
       - level1-workstation

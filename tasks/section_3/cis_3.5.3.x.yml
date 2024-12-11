@@ -5,8 +5,8 @@
       name: ['iptables', 'iptables-persistent']
       state: present
   when:
-      - ubtu22cis_rule_3_5_3_1_1
-      - ubtu22cis_firewall_package == "iptables"
+      - ubtu24cis_rule_3_5_3_1_1
+      - ubtu24cis_firewall_package == "iptables"
   tags:
       - level1-server
       - level1-workstation
@@ -19,10 +19,10 @@
   ansible.builtin.package:
       name: nftables
       state: absent
-      purge: "{{ ubtu22cis_purge_apt }}"
+      purge: "{{ ubtu24cis_purge_apt }}"
   when:
-      - ubtu22cis_rule_3_5_3_1_2
-      - ubtu22cis_firewall_package == "iptables"
+      - ubtu24cis_rule_3_5_3_1_2
+      - ubtu24cis_firewall_package == "iptables"
   tags:
       - level1-server
       - level1-workstation
@@ -36,8 +36,8 @@
       name: ufw
       state: absent
   when:
-      - ubtu22cis_rule_3_5_3_1_3
-      - ubtu22cis_firewall_package == "iptables"
+      - ubtu24cis_rule_3_5_3_1_3
+      - ubtu24cis_firewall_package == "iptables"
   tags:
       - level1-server
       - level1-workstation
@@ -83,8 +83,8 @@
             - FORWARD
             - OUTPUT
   when:
-      - ubtu22cis_rule_3_5_3_2_1
-      - ubtu22cis_ipv4_required
+      - ubtu24cis_rule_3_5_3_2_1
+      - ubtu24cis_ipv4_required
       - not system_is_ec2
   tags:
       - level1-server
@@ -120,9 +120,9 @@
             jump: DROP
         notify: Iptables persistent
   when:
-      - ubtu22cis_rule_3_5_3_2_2
-      - ubtu22cis_firewall_package == "iptables"
-      - ubtu22cis_ipv4_required
+      - ubtu24cis_rule_3_5_3_2_2
+      - ubtu24cis_firewall_package == "iptables"
+      - ubtu24cis_ipv4_required
   tags:
       - level1-server
       - level1-workstation
@@ -148,9 +148,9 @@
       - { chain: INPUT, protocol: udp, ctstate: 'ESTABLISHED' }
       - { chain: INPUT, protocol: icmp, ctstate: 'ESTABLISHED' }
   when:
-      - ubtu22cis_rule_3_5_3_2_3
-      - ubtu22cis_firewall_package == "iptables"
-      - ubtu22cis_ipv4_required
+      - ubtu24cis_rule_3_5_3_2_3
+      - ubtu24cis_firewall_package == "iptables"
+      - ubtu24cis_ipv4_required
   tags:
       - level1-server
       - level1-workstation
@@ -166,14 +166,14 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_3_5_3_2_4_open_ports
+        register: ubtu24cis_3_5_3_2_4_open_ports
 
       - name: "3.5.3.2.4 | AUDIT | Ensure iptables firewall rules exist for all open ports | Get list of rules"
         ansible.builtin.shell: iptables -L INPUT -v -n
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_3_5_3_2_4_current_rules
+        register: ubtu24cis_3_5_3_2_4_current_rules
 
       - name: "3.5.3.2.4 | AUDIT | Ensure iptables firewall rules exist for all open ports | Warn about settings"
         ansible.builtin.debug:
@@ -181,9 +181,9 @@
                 - "Warning!! Below is the list the open ports and current rules"
                 - "Please create a rule for any open port that does not have a current rule"
                 - "Open Ports:"
-                - "{{ ubtu22cis_3_5_3_2_4_open_ports.stdout_lines }}"
+                - "{{ ubtu24cis_3_5_3_2_4_open_ports.stdout_lines }}"
                 - "Current Rules:"
-                - "{{ ubtu22cis_3_5_3_2_4_current_rules.stdout_lines }}"
+                - "{{ ubtu24cis_3_5_3_2_4_current_rules.stdout_lines }}"
 
       - name: "3.5.3.2.4 | AUDIT | Ensure iptables firewall rules exist for all open ports | Set warning count"
         ansible.builtin.import_tasks:
@@ -191,9 +191,9 @@
   vars:
       warn_control_id: '3.5.3.2.4'
   when:
-      - ubtu22cis_rule_3_5_3_2_4
-      - ubtu22cis_firewall_package == "iptables"
-      - ubtu22cis_ipv4_required
+      - ubtu24cis_rule_3_5_3_2_4
+      - ubtu24cis_firewall_package == "iptables"
+      - ubtu24cis_ipv4_required
   tags:
       - level1-server
       - level1-workstation
@@ -218,16 +218,16 @@
 
 #       - name: "Make IPTables persistent | Save to persistent files"
 #         ansible.builtin.shell: bash -c "iptables-save > /etc/iptables/rules.v4"
-#         changed_when: ubtu22cis_iptables_save.rc == 0
-#         failed_when: ubtu22cis_iptables_save.rc > 0
-#         register: ubtu22cis_iptables_save
+#         changed_when: ubtu24cis_iptables_save.rc == 0
+#         failed_when: ubtu24cis_iptables_save.rc > 0
+#         register: ubtu24cis_iptables_save
 #   when:
-#       - ubtu22cis_firewall_package == "iptables"
-#       - ubtu22cis_save_iptables_cis_rules
-#       - ubtu22cis_rule_3_5_3_2_1 or
-#         ubtu22cis_rule_3_5_3_2_2 or
-#         ubtu22cis_rule_3_5_3_2_3 or
-#         ubtu22cis_rule_3_5_3_2_4
+#       - ubtu24cis_firewall_package == "iptables"
+#       - ubtu24cis_save_iptables_cis_rules
+#       - ubtu24cis_rule_3_5_3_2_1 or
+#         ubtu24cis_rule_3_5_3_2_2 or
+#         ubtu24cis_rule_3_5_3_2_3 or
+#         ubtu24cis_rule_3_5_3_2_4
 
 - name: "3.5.3.3.1 | PATCH | Ensure ip6tables default deny firewall policy"
   block:
@@ -260,8 +260,8 @@
             - FORWARD
             - OUTPUT
   when:
-      - ubtu22cis_rule_3_5_3_3_1
-      - ubtu22cis_ipv6_required
+      - ubtu24cis_rule_3_5_3_3_1
+      - ubtu24cis_ipv6_required
   tags:
       - level1-server
       - level1-workstation
@@ -299,10 +299,10 @@
             ip_version: ipv6
         notify: Ip6tables persistent
   when:
-      - ubtu22cis_rule_3_5_3_3_2
-      - ubtu22cis_firewall_package == "iptables"
-      - ubtu22cis_ipv6_required
-      - not ubtu22cis_ipv4_required
+      - ubtu24cis_rule_3_5_3_3_2
+      - ubtu24cis_firewall_package == "iptables"
+      - ubtu24cis_ipv6_required
+      - not ubtu24cis_ipv4_required
   tags:
       - level1-server
       - level1-workstation
@@ -329,10 +329,10 @@
       - { chain: INPUT, protocol: udp, ctstate: 'ESTABLISHED' }
       - { chain: INPUT, protocol: icmp, ctstate: 'ESTABLISHED' }
   when:
-      - ubtu22cis_rule_3_5_3_3_3
-      - ubtu22cis_firewall_package == "iptables"
-      - ubtu22cis_ipv6_required
-      - not ubtu22cis_ipv4_required
+      - ubtu24cis_rule_3_5_3_3_3
+      - ubtu24cis_firewall_package == "iptables"
+      - ubtu24cis_ipv6_required
+      - not ubtu24cis_ipv4_required
   tags:
       - level1-server
       - level1-workstation
@@ -348,14 +348,14 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_3_5_3_3_4_open_ports
+        register: ubtu24cis_3_5_3_3_4_open_ports
 
       - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Get list of rules"
         ansible.builtin.shell: ip6tables -L INPUT -v -n
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_3_5_3_3_4_current_rules
+        register: ubtu24cis_3_5_3_3_4_current_rules
 
       - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Warn about settings"
         ansible.builtin.debug:
@@ -363,9 +363,9 @@
                 - "Warning!! Below is the list the open ports and current rules"
                 - "Please create a rule for any open port that does not have a current rule"
                 - "Open Ports:"
-                - "{{ ubtu22cis_3_5_3_3_4_open_ports.stdout_lines }}"
+                - "{{ ubtu24cis_3_5_3_3_4_open_ports.stdout_lines }}"
                 - "Current Rules:"
-                - "{{ ubtu22cis_3_5_3_3_4_current_rules.stdout_lines }}"
+                - "{{ ubtu24cis_3_5_3_3_4_current_rules.stdout_lines }}"
 
       - name: "3.5.3.3.4 | AUDIT | Ensure ip6tables firewall rules exist for all open ports | Set warning count"
         ansible.builtin.import_tasks:
@@ -373,10 +373,10 @@
   vars:
       warn_control_id: '3.5.3.3.4'
   when:
-      - ubtu22cis_rule_3_5_3_3_4
-      - ubtu22cis_firewall_package == "iptables"
-      - ubtu22cis_ipv6_required
-      - not ubtu22cis_ipv4_required
+      - ubtu24cis_rule_3_5_3_3_4
+      - ubtu24cis_firewall_package == "iptables"
+      - ubtu24cis_ipv6_required
+      - not ubtu24cis_ipv4_required
   tags:
       - level1-server
       - level1-workstation
@@ -403,15 +403,15 @@
 
 #       - name: "Make IP6Tables persistent | Save to persistent files"
 #         ansible.builtin.shell: bash -c "ip6tables-save > /etc/iptables/rules.v6"
-#         changed_when: ubtu22cis_ip6tables_save.rc == 0
-#         failed_when: ubtu22cis_ip6tables_save.rc > 0
-#         register: ubtu22cis_ip6tables_save
+#         changed_when: ubtu24cis_ip6tables_save.rc == 0
+#         failed_when: ubtu24cis_ip6tables_save.rc > 0
+#         register: ubtu24cis_ip6tables_save
 #   when:
-#       - ubtu22cis_firewall_package == "iptables"
-#       - ubtu22cis_ipv6_required
-#       - not ubtu22cis_ipv4_required
-#       - ubtu22cis_save_iptables_cis_rules
-#       - ubtu22cis_rule_3_5_3_3_1 or
-#         ubtu22cis_rule_3_5_3_3_2 or
-#         ubtu22cis_rule_3_5_3_3_3 or
-#         ubtu22cis_rule_3_5_3_3_4
+#       - ubtu24cis_firewall_package == "iptables"
+#       - ubtu24cis_ipv6_required
+#       - not ubtu24cis_ipv4_required
+#       - ubtu24cis_save_iptables_cis_rules
+#       - ubtu24cis_rule_3_5_3_3_1 or
+#         ubtu24cis_rule_3_5_3_3_2 or
+#         ubtu24cis_rule_3_5_3_3_3 or
+#         ubtu24cis_rule_3_5_3_3_4

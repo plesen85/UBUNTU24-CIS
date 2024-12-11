@@ -5,7 +5,7 @@
       name: rsyslog
       state: present
   when:
-      - ubtu22cis_rule_4_2_2_1
+      - ubtu24cis_rule_4_2_2_1
       - "'rsyslog' not in ansible_facts.packages"
   tags:
       - level1-server
@@ -21,7 +21,7 @@
       name: rsyslog
       enabled: true
   when:
-      - ubtu22cis_rule_4_2_2_2
+      - ubtu24cis_rule_4_2_2_2
   tags:
       - level1-server
       - level1-workstation
@@ -37,7 +37,7 @@
       line: ForwardToSyslog=yes
   notify: Restart syslog service
   when:
-      - ubtu22cis_rule_4_2_2_3
+      - ubtu24cis_rule_4_2_2_3
   tags:
       - level1-server
       - level1-workstation
@@ -53,7 +53,7 @@
       line: '$FileCreateMode 0640'
   notify: Restart syslog service
   when:
-      - ubtu22cis_rule_4_2_2_4
+      - ubtu24cis_rule_4_2_2_4
   tags:
       - level1-server
       - level1-workstation
@@ -69,30 +69,30 @@
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_4_2_2_5_rsyslog_config_path
+        register: ubtu24cis_4_2_2_5_rsyslog_config_path
 
       - name: "4.2.2.5 | AUDIT | Ensure logging is configured | Gather rsyslog current config"
-        ansible.builtin.shell: "cat {{ ubtu22cis_4_2_2_5_rsyslog_config_path.stdout }}"
+        ansible.builtin.shell: "cat {{ ubtu24cis_4_2_2_5_rsyslog_config_path.stdout }}"
         changed_when: false
         failed_when: false
         check_mode: false
-        register: ubtu22cis_4_2_2_5_rsyslog_config
+        register: ubtu24cis_4_2_2_5_rsyslog_config
 
       - name: "4.2.2.5 | AUDIT | Ensure logging is configured | Message out config"
         ansible.builtin.debug:
             msg:
                 - "Warning!! Below is the current logging configurations for rsyslog, please review"
-                - "{{ ubtu22cis_4_2_2_5_rsyslog_config.stdout_lines }}"
-        when: not ubtu22cis_rsyslog_ansible_managed
+                - "{{ ubtu24cis_4_2_2_5_rsyslog_config.stdout_lines }}"
+        when: not ubtu24cis_rsyslog_ansible_managed
 
       - name: "4.2.2.5 | PATCH | Ensure logging is configured | Set warning count"
         ansible.builtin.import_tasks:
             file: warning_facts.yml
-        when: not ubtu22cis_rsyslog_ansible_managed
+        when: not ubtu24cis_rsyslog_ansible_managed
 
       - name: "4.2.2.5 | PATCH | Ensure logging is configured | Automated rsyslog configuration"
         ansible.builtin.lineinfile:
-            path: "{{ ubtu22cis_4_2_2_5_rsyslog_config_path.stdout }}"
+            path: "{{ ubtu24cis_4_2_2_5_rsyslog_config_path.stdout }}"
             regexp: "{{ item.regexp }}"
             line: "{{ item.line }}"
             insertafter: "{{ item.insertafter }}"
@@ -114,11 +114,11 @@
         loop_control:
             label: "{{ item.line }}"
         notify: Restart syslog service
-        when: ubtu22cis_rsyslog_ansible_managed
+        when: ubtu24cis_rsyslog_ansible_managed
   vars:
       warn_control_id: '4.2.2.5'
   when:
-      - ubtu22cis_rule_4_2_2_5
+      - ubtu24cis_rule_4_2_2_5
   tags:
       - level1-server
       - level1-workstation
@@ -132,11 +132,11 @@
       path: /etc/rsyslog.conf
       block: |
           ##Enable sending of logs over TCP add the following line:
-          *.* @@{{ ubtu22cis_remote_log_server }}
+          *.* @@{{ ubtu24cis_remote_log_server }}
       insertafter: EOF
   when:
-      - ubtu22cis_rule_4_2_2_6
-      - not ubtu22cis_system_is_log_server
+      - ubtu24cis_rule_4_2_2_6
+      - not ubtu24cis_system_is_log_server
   tags:
       - level1-server
       - level1-workstation
@@ -156,7 +156,7 @@
             - '^(\$ModLoad|module(load="imtcp"))'
             - '^(\$(InputTCP|InputRELP|UDP)ServerRun|input(type="imtcp" port=".*"))'
         notify: Restart syslog service
-        when: not ubtu22cis_system_is_log_server
+        when: not ubtu24cis_system_is_log_server
 
       - name: "4.2.2.7 | PATCH | Ensure rsyslog is not configured to receive logs from a remote client | When a log server"
         ansible.builtin.lineinfile:
@@ -167,9 +167,9 @@
             - { regexp: '^\$ModLoad|^#\$ModLoad', line: '$ModLoad imtcp' }
             - { regexp: '^\$InputTCPServerRun|^#\$InputTCPServerRun', line: '$InputTCPServerRun 514' }
         notify: Restart syslog service
-        when: ubtu22cis_system_is_log_server
+        when: ubtu24cis_system_is_log_server
   when:
-      - ubtu22cis_rule_4_2_2_7
+      - ubtu24cis_rule_4_2_2_7
   tags:
       - level1-server
       - level1-workstation

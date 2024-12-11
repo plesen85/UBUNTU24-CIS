@@ -19,17 +19,17 @@
 - name: "SECTION | 4.2.1.1.x | Configure journald"
   ansible.builtin.import_tasks:
       file: cis_4.2.1.1.x.yml
-  when: ubtu22cis_syslog_service == 'journald'
+  when: ubtu24cis_syslog_service == 'journald'
 
 - name: "SECTION | 4.2.1.x | Configure journald"
   ansible.builtin.import_tasks:
       file: cis_4.2.1.x.yml
-  when: ubtu22cis_syslog_service == 'journald'
+  when: ubtu24cis_syslog_service == 'journald'
 
 - name: "SECTION | 4.2.2.x | Configure rsyslog"
   ansible.builtin.import_tasks:
       file: cis_4.2.2.x.yml
-  when: ubtu22cis_syslog_service == 'rsyslog'
+  when: ubtu24cis_syslog_service == 'rsyslog'
 
 - name: "SECTION | 4.2.3 | Ensure permissions on all logfiles are configured"
   ansible.builtin.import_tasks:

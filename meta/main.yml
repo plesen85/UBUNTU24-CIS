@@ -2,11 +2,11 @@
 
 galaxy_info:
     author: "George Nalen, Mark Bolwell, and DFed"
-    description: "Apply the Ubuntu 22 CIS benchmarks"
+    description: "Apply the Ubuntu 24 CIS benchmarks"
     company: "MindPoint Group"
     license: MIT
     namespace: mindpointgroup
-    role_name: ubuntu22_cis
+    role_name: ubuntu24_cis
     min_ansible_version: 2.12.1
     platforms:
         - name: Ubuntu
@@ -20,7 +20,7 @@ galaxy_info:
         - benchmark
         - compliance
         - complianceascode
-        - ubuntu22
+        - ubuntu24
 collections:
     - community.general
     - community.crypto
